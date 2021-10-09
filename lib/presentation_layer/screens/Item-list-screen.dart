@@ -63,13 +63,9 @@ class ItemsListScreen extends StatelessWidget {
                                       Container(
                                         width: 100 ,
                                         height: 100 ,
-                                        decoration: BoxDecoration(
-                                          // borderRadius: BorderRadius.circular(10),
-                                            image:DecorationImage(
-                                              image:  NetworkImage(item.image),
-                                              fit:BoxFit.cover,
-                                            )
-                                        ),
+                                        child: Hero(
+                                            tag: "${item.id}",
+                                            child: Image.network(item.image)),
                                       ),
                                       /// [DEPRECATED]Love ....
                                       // Align(

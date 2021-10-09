@@ -45,19 +45,14 @@ class GridViewItems extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
-                            width: 190 ,
+                            width: 190,
                             height: 110,
                             child: Stack(
                                 children:[
-                                  Container(
-                                    width: 190 ,
-                                    height: 110,
-                                    decoration: BoxDecoration(
-                                      //borderRadius: BorderRadius.circular(10),
-                                        image:DecorationImage(
-                                          image:  NetworkImage(entry.image),
-                                          fit:BoxFit.cover,
-                                        )
+                                  Center(
+                                    child: Hero(
+                                      tag:"${entry.id}",
+                                      child: Image.network(entry.image,),
                                     ),
                                   ),
                                   /// [DEPRECATED] love

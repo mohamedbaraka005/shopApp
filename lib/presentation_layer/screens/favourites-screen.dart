@@ -61,7 +61,7 @@ class FavouritesScreen extends StatelessWidget {
                 print("navigate to item details screen");
               },
               child: Card(
-                color:Color(0xffeaf1f8),
+                color:Colors.white,
                 //color: Colors.blueGrey[100],
                 child: Padding(
                   padding: EdgeInsets.all(5),
@@ -72,13 +72,9 @@ class FavouritesScreen extends StatelessWidget {
                           Container(
                           width: 100,
                           height: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image:DecorationImage(
-                                image:  NetworkImage(item.image),
-                                fit:BoxFit.cover,
-                              )
-                          ),
+                            child: Hero(
+                              tag: "${item.id}",
+                                child: Image.network(item.image)),
                         ),
                           Align(
                               alignment: Alignment.topRight,
@@ -177,7 +173,7 @@ class FavouritesScreen extends StatelessWidget {
                                       ),
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
                                       child: FlatButton(
-                                        color: Colors.blue,
+                                        color: Colors.blue[800],
                                         onPressed: (){
                                           ///add item to the cart.
                                           providerListenFalse.addToCart(item.id, item.price);
