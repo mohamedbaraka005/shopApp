@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shop_app2/presentation_layer/widgets/divider.dart';
 import 'package:shop_app2/providers/my-provider.dart';
 import 'image-viewer-screen.dart';
 
@@ -61,13 +62,16 @@ class ItemDetailsScreen extends StatelessWidget {
                     ///image of the product
                     InkWell(
                       onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ImageViewerScreen(image: item.image,)));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ImageViewerScreen(image: item.image, id: item.id,)));
                       },
                       child: Container(
                         color: Colors.white,
                         width: 150,
                         height: 300,
-                        child: Image.network(item.image),
+                        child: Hero (
+                            tag: "${item.id}",
+                            child: Image.network(item.image)
+                        ),
                       ),
                     ),
                     Container(
@@ -81,10 +85,7 @@ class ItemDetailsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ///works as a divider
-                                Container(
-                                  color: Colors.grey[300],
-                                  height: 0.5,
-                                ),
+                                AppDivider(color: Colors.grey[300],),
                                 SizedBox(height: 5,),
                                 Container(
                                   padding: EdgeInsets.symmetric(horizontal: 7, vertical: 2),
@@ -179,11 +180,8 @@ class ItemDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              ///works as a divider
-              Container(
-               color: Colors.grey[500],
-               height: 0.5,
-              ),
+
+              AppDivider(color: Colors.grey[500],),
               ///Add To Cart & Call
               Container(
                 color: Colors.white,

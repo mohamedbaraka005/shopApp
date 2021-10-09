@@ -101,7 +101,7 @@ class CartScreen extends StatelessWidget {
                     print("navigate to item details screen");
                   },
                   child: Card(
-                    color:Color(0xffeaf1f8),
+                    color:Colors.white,
                     //color: Colors.blueGrey[100],
                     child: Padding(
                       padding: EdgeInsets.all(5),
@@ -110,13 +110,16 @@ class CartScreen extends StatelessWidget {
                           Container(
                             width: 100,
                             height: 100,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image:DecorationImage(
-                                  image:  NetworkImage(item.image),
-                                  fit:BoxFit.cover,
-                                )
-                            ),
+                            // decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(10),
+                            //     image:DecorationImage(
+                            //       image:  NetworkImage(item.image),
+                            //       fit:BoxFit.cover,
+                            //     )
+                            // ),
+                            child:Hero(
+                               tag:"${item.id}",
+                                child: Image.network(item.image)),
                           ),
                           SizedBox(
                             width: 10,
@@ -208,61 +211,67 @@ class CartScreen extends StatelessWidget {
        //Spacer(),
       Align(
           alignment:Alignment.bottomCenter,
-        child: Container(
-            padding:EdgeInsets.fromLTRB(10,5,10,10),
-            width:double.infinity,
-            height:160,
-            color:Colors.white,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    children:[
-                      Text("Total" , style: TextStyle(fontWeight: FontWeight.bold),),
-                      Spacer(),
-                      Text(Provider.of<AppProvider>(context,listen:true).total==0.0?"EGP 0":"EGP ${Provider.of<AppProvider>(context,listen:true).total.toStringAsFixed(2)} " , style: TextStyle(color: Colors.blue[800] , fontWeight:FontWeight.bold),),
-                      //Text("EGP 182" , style: TextStyle(color:Colors.blue[800] , fontWeight:FontWeight.bold ),),
-                    ],),
-                ),
-                Expanded(
-                  child: Align(
-                      alignment:Alignment.centerRight,
-                      child: Text("delivery fee not included yet." , style: Theme.of(context).textTheme.caption,)),
-                ),
-                Expanded(
-                  child: Center(
+        child: Column(
+          children: [
+            Container(
+                color:Colors.grey[200],
+                padding:EdgeInsets.fromLTRB(10,5,10,10),
+                width:double.infinity,
+                height:160,
+               // color:Colors.white,
+                child: Column(
+                  children: [
+
+                    Expanded(
+                      child: Row(
+                        children:[
+                          Text("Total" , style: TextStyle(fontWeight: FontWeight.bold),),
+                          Spacer(),
+                          Text(Provider.of<AppProvider>(context,listen:true).total==0.0?"EGP 0":"EGP ${Provider.of<AppProvider>(context,listen:true).total.toStringAsFixed(2)} " , style: TextStyle(color: Colors.blue[800] , fontWeight:FontWeight.bold),),
+                          //Text("EGP 182" , style: TextStyle(color:Colors.blue[800] , fontWeight:FontWeight.bold ),),
+                        ],),
+                    ),
+                    Expanded(
+                      child: Align(
+                          alignment:Alignment.centerRight,
+                          child: Text("delivery fee not included yet." , style: Theme.of(context).textTheme.caption,)),
+                    ),
+                    Expanded(
+                      child: Center(
+                          child: Container(
+                          decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          ),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: MaterialButton(
+                              minWidth:double.infinity,
+                              color:Provider.of<AppProvider>(context,listen:true).ItemsCount>0?Colors.blue[800]:Colors.grey,
+                              onPressed:(){},
+                              child:Text("CHECKOUT (${Provider.of<AppProvider>(context,listen:true).ItemsCount})",style: TextStyle(color: Colors.white)),
+                            ),
+                          )),
+                    ),
+                    SizedBox(height:5),
+                    Expanded(
                       child: Container(
-                      decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      ),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: MaterialButton(
-                          minWidth:double.infinity,
-                          color:Provider.of<AppProvider>(context,listen:true).ItemsCount>0?Colors.blue[800]:Colors.grey,
-                          onPressed:(){},
-                          child:Text("CHECKOUT (${Provider.of<AppProvider>(context,listen:true).ItemsCount})",style: TextStyle(color: Colors.white)),
+                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
                         ),
-                      )),
-                ),
-                SizedBox(height:5),
-                Expanded(
-                  child: Container(
-                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    ),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: MaterialButton(
-                        minWidth:double.infinity,
-                        color:Color(0xffeaf1f8),
-                        onPressed:(){
-                          Navigator.pop(context);
-                        },
-                        child:Text("CONTINUE SHOPPING" , style: TextStyle(color: Colors.blue[800]),)
-                    ),
-                  ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: MaterialButton(
+                            minWidth:double.infinity,
+                            color:Color(0xffeaf1f8),
+                            onPressed:(){
+                              Navigator.pop(context);
+                            },
+                            child:Text("CONTINUE SHOPPING" , style: TextStyle(color: Colors.blue[800]),)
+                        ),
+                      ),
+                    )
+                  ],
                 )
-              ],
-            )
+            ),
+          ],
         ),
       ),
      ]

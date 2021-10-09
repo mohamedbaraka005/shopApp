@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 class ImageViewerScreen extends StatefulWidget {
   final String image ;
-  const ImageViewerScreen({Key key ,  this.image}) : super(key: key);
+  final int id;
+  const ImageViewerScreen({Key key ,  this.image , this.id}) : super(key: key);
 
   @override
   _ImageViewerScreenState createState() => _ImageViewerScreenState();
@@ -49,9 +50,13 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> with SingleTicker
             scaleEnabled: true,
             minScale: 1.0 ,
             maxScale: 2.5 ,
-            child: Image.network(image,
-            fit: BoxFit.fitWidth,
+            child: Hero(
+              /// widget.id like super in inheritance
+              tag: "${widget.id}",
+              child: Image.network(image,
+              fit: BoxFit.fitWidth,
           ),
+            ),
         ))
       ),
     );
