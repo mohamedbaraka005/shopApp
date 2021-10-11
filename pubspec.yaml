@@ -35,6 +35,7 @@ dev_dependencies:
   provider: ^4.3.3
   shared_preferences: ^0.5.12
   http: ^0.12.2
+  url_launcher: ^5.7.10
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -53,6 +54,7 @@ flutter:
     - assets/images/EmptyCart.png
     - assets/images/sad.png
     - assets/images/sad (1).png
+    - assets/images/trolley.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

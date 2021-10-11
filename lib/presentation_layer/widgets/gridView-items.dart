@@ -50,9 +50,13 @@ class GridViewItems extends StatelessWidget {
                             child: Stack(
                                 children:[
                                   Center(
-                                    child: Hero(
+                                    child:Hero(
                                       tag:"${entry.id}",
-                                      child: Image.network(entry.image,),
+                                      //child:Image.network(entry.image,) ,
+                                      child: FadeInImage(
+                                          placeholder: AssetImage("assets/images/trolley.png"),
+                                          image: NetworkImage(entry.image,)
+                                      ),
                                     ),
                                   ),
                                   /// [DEPRECATED] love

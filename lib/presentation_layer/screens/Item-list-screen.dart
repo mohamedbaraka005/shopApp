@@ -65,7 +65,10 @@ class ItemsListScreen extends StatelessWidget {
                                         height: 100 ,
                                         child: Hero(
                                             tag: "${item.id}",
-                                            child: Image.network(item.image)),
+                                            child: FadeInImage(
+                                            placeholder: AssetImage("assets/images/trolley.png"),
+                                          image: NetworkImage(item.image,)
+                                      ),),
                                       ),
                                       /// [DEPRECATED]Love ....
                                       // Align(
