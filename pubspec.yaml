@@ -36,6 +36,7 @@ dev_dependencies:
   shared_preferences: ^0.5.12
   http: ^0.12.2
   url_launcher: ^5.7.10
+  smooth_page_indicator: ^0.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -55,6 +56,9 @@ flutter:
     - assets/images/sad.png
     - assets/images/sad (1).png
     - assets/images/trolley.png
+    - assets/images/onBoarding1.jpg
+    - assets/images/onBoarding2.jpg
+    - assets/images/onBoarding3.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

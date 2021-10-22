@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app2/providers/my-provider.dart';
 import 'item-details-screen.dart';
+import 'package:shop_app2/providers/animated-container-provider.dart';
 class FavouritesScreen extends StatelessWidget {
   const FavouritesScreen({Key key}) : super(key: key);
 
@@ -13,7 +14,7 @@ class FavouritesScreen extends StatelessWidget {
         backgroundColor: Color(0xffeaf1f8),
         centerTitle: true,
         title:Text(
-          "Favourites",
+          "WishList",
           style: TextStyle(color: Colors.black , fontSize: 18),
         ),
         leading:IconButton(
@@ -24,21 +25,50 @@ class FavouritesScreen extends StatelessWidget {
       ),
       body:
       Provider.of<AppProvider>(context, listen: true).favourites_Items.length==0?
-      Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding:EdgeInsets.only(bottom: 80),
-                child: SizedBox(
-                    height:200,
-                    child: Image.asset("assets/images/sad (1).png")),
-              ),
-              Text("there are no Items in the favourites..." , style: TextStyle(color: Colors.grey[500]),),
-            ],
+      Stack(
+        children:[
+          Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding:EdgeInsets.only(bottom: 80),
+                  child: SizedBox(
+                      height:200,
+                      child: Image.asset("assets/images/sad (1).png")),
+                ),
+                Text("there are no Items in the favourites..." , style: TextStyle(color: Colors.grey[500]),),
+              ],
+            ),
           ),
         ),
+          Provider.of<AnimatedContainerProvider>(context,listen: true).AddToCart ?
+          AnimatedPositioned(
+               duration: Duration(milliseconds: 400),
+               top:Provider.of<AnimatedContainerProvider>(context,listen: true).top,
+               left: Provider.of<AnimatedContainerProvider>(context,listen: true).left,
+               child: AnimatedContainer(
+                duration: Duration(milliseconds:400),
+                color: Colors.blue,
+                width: Provider.of<AnimatedContainerProvider>(context,listen: true).containerWidth,
+                height: Provider.of<AnimatedContainerProvider>(context,listen: true).containerHeight,
+                 child:Image.asset("assets/images/trolley.png"),
+            ),
+             )
+              :
+          Container(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child:TextButton(
+              child: Text("Click to animate"),
+              onPressed:()async{
+                Provider.of<AnimatedContainerProvider>(context,listen: false).AddToCartAnimation();
+                },
+            )
+          )
+
+        ]
       )
           :
       ListView(

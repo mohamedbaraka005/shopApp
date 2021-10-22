@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app2/presentation_layer/screens/item-details-screen.dart';
 import 'package:shop_app2/providers/my-provider.dart';
+import 'package:shop_app2/providers/animated-container-provider.dart';
 
 class GridViewItems extends StatelessWidget {
   const GridViewItems({Key key}) : super(key: key);
@@ -172,9 +173,12 @@ class GridViewItems extends StatelessWidget {
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
                                     child: FlatButton(
                                       color: Colors.blue[800],
-                                      onPressed: (){
+                                      onPressed: () {
                                         ///add item to the cart.
                                         Provider.of<AppProvider>(context, listen:false).addToCart(entry.id , entry.price);
+                                        Future.delayed(Duration.zero);
+                                        Provider.of<AnimatedContainerProvider>(context,listen:false).AddToCartAnimation();
+                                        Future.delayed(Duration.zero);
                                         print("add to cart");
                                       },
                                       child: Row(
