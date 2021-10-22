@@ -14,8 +14,11 @@ import 'package:shop_app2/presentation_layer/screens/home-screen.dart';
 import 'package:shop_app2/presentation_layer/screens/image-viewer-screen.dart';
 import 'package:shop_app2/presentation_layer/screens/item-details-screen.dart';
 import 'package:shop_app2/presentation_layer/screens/items-screen.dart';
+import 'package:shop_app2/presentation_layer/screens/on-boarding-screen.dart';
 import 'package:shop_app2/providers/auth-provider.dart';
 import 'package:shop_app2/providers/my-provider.dart';
+import 'package:shop_app2/providers/animated-container-provider.dart';
+import 'package:shop_app2/providers/on-boarding-provider.dart';
 import 'package:shop_app2/shared/helper.dart';
 
 
@@ -31,32 +34,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context)=> AuthProvider(),
+      create: (context)=> OnBoardingProvider(),
       child: ChangeNotifierProvider(
-        create: (context)=> AppProvider()..LoadProductsAndCart(),
-        child: Builder(
-          builder:(context)=> MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              iconTheme: IconThemeData(
-                color: Colors.white,
-              ),
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-            ),
-            home:context.watch<AuthProvider>().loggedIn? HomeScreen() : AuthScreen(),
-            routes: {
-              //'/':(context)=>HomeScreen(),
-              '/ils' :(context)=> ItemsListScreen(),
-              '/is' :(context)=>  ItemsScreen(),
-              '/cs':(context)=>   CartScreen(),
-              '/fs':(context)=>   FavouritesScreen(),
-              '/ids':(context)=>  ItemDetailsScreen(),
-              '/ivs':(context)=>  ImageViewerScreen(),
-              '/as':(context)=>   AuthScreen(),
-            },
+        create: (context)=> AnimatedContainerProvider(),
+        child: ChangeNotifierProvider(
+          create: (context)=> AuthProvider(),
+          child: ChangeNotifierProvider(
+            create: (context)=> AppProvider()..LoadProductsAndCart(),
+            child: Builder(
+              builder:(context)=> MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                  iconTheme: IconThemeData(
+                    color: Colors.white,
+                  ),
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                ),
+                //home:context.watch<AuthProvider>().loggedIn? HomeScreen() : AuthScreen(),
+                home:context.watch<OnBoardingProvider>().FirstTime?OnBoardingScreen():(context.watch<AuthProvider>().loggedIn? HomeScreen() : AuthScreen()),
+                routes: {
+                  //'/':(context)=>HomeScreen(),
+                  '/ils' :(context)=> ItemsListScreen(),
+                  '/is' :(context)=>  ItemsScreen(),
+                  '/cs':(context)=>   CartScreen(),
+                  '/fs':(context)=>   FavouritesScreen(),
+                  '/ids':(context)=>  ItemDetailsScreen(),
+                  '/ivs':(context)=>  ImageViewerScreen(),
+                  '/as':(context)=>   AuthScreen(),
+                  '/obs':(context)=>  OnBoardingScreen(),
+                },
 
+              ),
+            ),
           ),
         ),
       ),

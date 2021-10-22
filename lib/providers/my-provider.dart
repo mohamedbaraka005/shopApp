@@ -1,12 +1,12 @@
 
 
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 
-import 'package:http/http.dart' as http;
+
+import 'package:shop_app2/the_data_layer/data_providers/fakeStore-api.dart';
 import 'package:shop_app2/the_data_layer/models/cart-model.dart';
 import 'package:shop_app2/the_data_layer/models/product-model.dart';
+import 'package:shop_app2/the_data_layer/repository/products-repository.dart';
 
 
 
@@ -17,24 +17,45 @@ class AppProvider with ChangeNotifier{
   int ItemsCount = 0;
   String category = "All";
   List<Product> products ;
+  ///do not forget to initialize the object:
+  ProductsRepository _pruductsRepository = new ProductsRepository();
+  FakeStoreAPI _fakestoreapi = new FakeStoreAPI();
+  
 
 
 
 
-  Future<void> Get_Products()async{
-
+  Future<void> Get_Products() async{
     ///to show the loading again:
     //  products=[] ;
     //  notifyListeners();
-
     print("Get Products");
-    var response = await http.get(Uri.parse('https://fakestoreapi.com/products'));
-    var json = jsonDecode(response.body);
-    products =( json as List<dynamic> ).map((item){
-      ///do not forget the word return:
-     return Product.fromJson(item);
-    }).toList();
+       try{
+         products = await _pruductsRepository.GetProducts();
+       }
+       catch(error){
+         print("++++++++++++++++++++++++++++++++++++${error.toString()}");
+       }
+    notifyListeners();
+  }
 
+
+  Future<void> Load_Cart() async{
+    var json = await _fakestoreapi.LoadRawCart();
+    json['products'].map((item) {
+      /// Get the id and the quantity for each item in cart
+      int ItemId = item['productId'];
+      int ItemQuantity = item['quantity'];
+      double ItemPrice = products.firstWhere((element) => element.id==ItemId).price;
+      /// make the item as a map of string and item Cart to fit in the cart list
+      Map<String,CartItem> CartProduct = {ItemId.toString() : CartItem(id: ItemId, quantity: ItemQuantity) };
+      /// add it to the cart:
+      cart.addAll( CartProduct ) ;
+      /// add the total price of this item to the total price variable:
+      total += ItemPrice * ItemQuantity ;
+      /// add the quantity of this item to the count variable:
+      ItemsCount += ItemQuantity;
+    }).toList();
     notifyListeners();
   }
 
@@ -274,30 +295,7 @@ class AppProvider with ChangeNotifier{
     notifyListeners() ;
   }
 
-  Future<void> Load_Cart() async {
-    var response = await http.get(Uri.parse('https://fakestoreapi.com/carts/5'));
-    var json = jsonDecode(response.body);
-      json['products'].map((item) {
-       /// Get the id and the quantity for each item in cart
-       int ItemId = item['productId'];
-       int ItemQuantity = item['quantity'];
-       double ItemPrice = products.firstWhere((element) => element.id==ItemId).price;
-       print(ItemId);
-       print(ItemQuantity);
-       /// make the item as a map of string and item Cart to fit in the cart list
-       Map<String,CartItem> CartProduct = {ItemId.toString() : CartItem(id: ItemId, quantity: ItemQuantity) };
 
-       /// add it to the cart:
-       cart.addAll( CartProduct );
-       /// add the total price of this item to the total price variable:
-       total+= ItemPrice * ItemQuantity ;
-       /// add the quantity of this item to the count variable:
-       ItemsCount+=ItemQuantity;
-     }).toList();
-     print(json);
-     notifyListeners();
-
-  }
 
 
 
